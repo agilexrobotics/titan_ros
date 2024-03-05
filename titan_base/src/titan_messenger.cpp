@@ -216,8 +216,8 @@ void TitanROSMessenger::UpdateOdometry(double linear, double steering_angle, dou
   DualAckermanModel::control_type u;
   u.v = linear;
   //for old driver
-  u.phi = -10 * steering_angle * (3.14/180);
-  //u.phi = steering_angle;
+  // u.phi = -10 * steering_angle * (3.14/180);
+  u.phi = steering_angle;
   // std::cout<<"control linear: "<<u.v<<" steer_angle: "<<u.phi<<std::endl;
 
   boost::numeric::odeint::integrate_const(
@@ -317,8 +317,8 @@ double TitanROSMessenger::CalculateSteeringAngle(geometry_msgs::Twist msg,
   w = robot_params_.track;
   phi_i = atan((l / 2) / (radius - w / 2));
   // for old driver
-  phi_i = 0.1 * k * phi_i*(-180/3.14);
-  //phi_i = k * phi_i;
+  // phi_i = 0.1 * k * phi_i*(-180/3.14);
+  phi_i = k * phi_i;
   ROS_INFO("command linear: %f, steer_angle: %f", linear, phi_i);
   return phi_i;
 }
